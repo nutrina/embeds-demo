@@ -29,6 +29,7 @@ The following options are available:
 ## Embeds
 
 - our newest offering
+- check out our demo integration on our campaign page: https://app.passport.xyz/#/campaign/embed
 - it is a react component you can integrate directy in your app
 - allows you to check a users score and also allow him to claim stamp directly from the widget (no need to redirect huim away from your app)
 - integration requires yout to have an api and a scorer, which you can create on our [Developer Portal](https://developer.passport.xyz/)
