@@ -1,13 +1,20 @@
 import { useState } from "react";
 import {
+  LightTheme,
   PassportScoreWidget,
   usePassportScore,
 } from "@passportxyz/passport-embed";
 import { Buffer } from "buffer";
 import "./App.css";
 
-const PASSPORT_API_KEY = import.meta.env.VITE_SCORER_ID;
-const PASSPORT_SCORER_ID = import.meta.env.VITE_API_KEY;
+const PASSPORT_API_KEY = import.meta.env.VITE_SCORER_ID || "DEMO.API_KEY";
+const PASSPORT_SCORER_ID = import.meta.env.VITE_API_KEY || "14";
+
+const passportEmbedParams = {
+  apiKey: PASSPORT_API_KEY,
+  scorerId: PASSPORT_SCORER_ID,
+  overrideEmbedServiceUrl: "https://embed.staging.passport.xyz",
+};
 
 const connectWallet = async () => {
   // Check if MetaMask is installed
@@ -62,8 +69,7 @@ const generateSignature = async (message: string) => {
 
 const DirectPassportDataAccess = ({ address }: { address?: string }) => {
   const { data, isError, error } = usePassportScore({
-    apiKey: PASSPORT_API_KEY,
-    scorerId: PASSPORT_SCORER_ID,
+    ...passportEmbedParams,
     address: address,
   });
 
@@ -88,38 +94,87 @@ function App() {
   const [address, setAddress] = useState<string | undefined>();
 
   return (
-    <>
-      <PassportScoreWidget
-        apiKey={PASSPORT_API_KEY}
-        scorerId={PASSPORT_SCORER_ID}
-        address={address}
-        connectWalletCallback={async () => {
-          const address = await connectWallet();
-          setAddress(address);
-        }}
-        generateSignatureCallback={generateSignature}
-        collapseMode={"overlay"} // off | shift | overlay
-        // theme={{
-        //   colors: {
-        //     // primary: "255, 255, 0",
-        //     // background: "255, 0, 0",
-        //     // secondary: "255, 255, 255"
-        //   },
-        //   radius: {
-        //     // button: "0",
-        //     // widget: "0",
-        //   },
+    <div className="container">
+      <div className="demo-sample">
+        <h4>Dark Theme, collapsed</h4>
+        <PassportScoreWidget
+          {...passportEmbedParams}
+          address={address}
+          connectWalletCallback={async () => {
+            const address = await connectWallet();
+            setAddress(address);
+          }}
+          generateSignatureCallback={generateSignature}
+          collapseMode={"overlay"} // off | shift | overlay
+          // theme={{
+          //   colors: {
+          //     // primary: "255, 255, 0",
+          //     // background: "255, 0, 0",
+          //     // secondary: "255, 255, 255"
+          //   },
+          //   radius: {
+          //     // button: "0",
+          //     // widget: "0",
+          //   },
 
-        //   font: {
-        //     family: {
-        //       // body: "sans",
-        //       // heading: "Courier",
-        //     },
-        //   },
-        // }}
-      />
-      <DirectPassportDataAccess address={address} />
-    </>
+          //   font: {
+          //     family: {
+          //       // body: "sans",
+          //       // heading: "Courier",
+          //     },
+          //   },
+          // }}
+        />
+      </div>
+      <div className="demo-sample">
+        <h4>Light Theme</h4>
+        <PassportScoreWidget
+          {...passportEmbedParams}
+          address={address}
+          connectWalletCallback={async () => {
+            const address = await connectWallet();
+            setAddress(address);
+          }}
+          generateSignatureCallback={generateSignature}
+          collapseMode={"off"} // off | shift | overlay
+          theme={LightTheme}
+        />
+      </div>
+      <div className="demo-sample">
+        <h4>Custom Theme</h4>
+        <PassportScoreWidget
+          {...passportEmbedParams}
+          address={address}
+          connectWalletCallback={async () => {
+            const address = await connectWallet();
+            setAddress(address);
+          }}
+          generateSignatureCallback={generateSignature}
+          collapseMode={"off"} // off | shift | overlay
+          theme={{
+            colors: {
+              primary: "255, 255, 0",
+              background: "255, 0, 0",
+              secondary: "255, 255, 255",
+            },
+            radius: {
+              button: "0",
+              widget: "0",
+            },
+
+            font: {
+              family: {
+                body: "Courier",
+                heading: "Courier",
+              },
+            },
+          }}
+        />
+      </div>
+      <div className="demo-sample">
+        <DirectPassportDataAccess address={address} />
+      </div>
+    </div>
   );
 }
 
