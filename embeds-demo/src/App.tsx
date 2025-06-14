@@ -8,12 +8,12 @@ import { Buffer } from "buffer";
 import "./App.css";
 
 const PASSPORT_API_KEY = import.meta.env.VITE_SCORER_ID || "DEMO.API_KEY";
-const PASSPORT_SCORER_ID = import.meta.env.VITE_API_KEY || "14";
+const PASSPORT_SCORER_ID = import.meta.env.VITE_API_KEY || "335"; // TODO: use DEMO after fix
 
 const passportEmbedParams = {
   apiKey: PASSPORT_API_KEY,
   scorerId: PASSPORT_SCORER_ID,
-  overrideEmbedServiceUrl: "https://embed.staging.passport.xyz",
+  // overrideEmbedServiceUrl: "https://embed.staging.passport.xyz",
 };
 
 const connectWallet = async () => {
